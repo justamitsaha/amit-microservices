@@ -61,7 +61,6 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-
         <!-- H2 DB -->
 
         <!-- JPA -->
@@ -78,6 +77,14 @@
             <optional>true</optional>
         </dependency>
         <!-- lombok-->
+
+        <!--service discovery-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!--service discovery-->
+
 
     </dependencies>
 
