@@ -18,6 +18,7 @@
         <module>product-services</module>
         <module>discovery-service</module>
         <module>inventory-service</module>
+        <module>api-gateway</module>
     </modules>
 
     <properties>
