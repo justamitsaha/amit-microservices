@@ -16,7 +16,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public void addProduct(ProductRequestDTO productRequest) {
+    public Product addProduct(ProductRequestDTO productRequest) {
         Product product = Product
                 .builder()
                 .name(productRequest.getName())
@@ -24,7 +24,7 @@ public class ProductService {
                 .description(productRequest.getDescription())
                 .prise(productRequest.getPrise())
                 .build();
-        this.productRepository.insert(product);
+        return this.productRepository.insert(product);
     }
 
     public Product getProductById(String id) {

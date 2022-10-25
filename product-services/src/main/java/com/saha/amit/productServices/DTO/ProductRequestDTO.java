@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 
 @Data
@@ -16,6 +17,6 @@ public class ProductRequestDTO {
 	private String name;
 	@NotEmpty(message = "Please provide product description")
 	private String description;
-	@NotEmpty(message = "Please provide product prise")
+	@DecimalMin(value = "1.00", message = "Please provide price greater than 1")
 	private Double prise;
 }

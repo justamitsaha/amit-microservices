@@ -1,6 +1,6 @@
-package com.saha.amit.authenticationservices.controller;
+package com.saha.amit.productServices.controller;
 
-import java.util.stream.Collectors;
+import com.saha.amit.productServices.DTO.ResponseDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import com.saha.amit.authenticationservices.DTO.ResponseDTO;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 @RestController
@@ -26,21 +26,10 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<Object>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    /*
-     * @ExceptionHandler(EmployeeResponseNotFoundException.class) public final
-     * ResponseEntity<Object>
-     * handleUserNotFoundException(EmployeeResponseNotFoundException ex, WebRequest
-     * request) {
-     * System.out.println("<----Inside handleUserNotFoundException---->");
-     * CustomeResponse exceptionResponse = new CustomeResponse(new Date(),
-     * ex.getMessage(), request.getDescription(false)); return new
-     * ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND); }
-     */
 
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
         System.out.println("<----Inside handleMethodArgumentNotValid---->" + ex.getMessage());
-
         String message = ex.getBindingResult().getAllErrors().stream().map(s -> s.getDefaultMessage())
                 .collect(Collectors.joining("|"));
         ResponseDTO responseDTO = ResponseDTO.builder()
@@ -49,5 +38,4 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
                 .build();
         return new ResponseEntity<Object>(responseDTO, HttpStatus.BAD_REQUEST);
     }
-
 }
