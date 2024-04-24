@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Api(tags="Inverntory")
-@RequestMapping("/api/inventory")
+@RequestMapping("/api")
 public class InventoryController {
 	
 	@Autowired

@@ -1,11 +1,13 @@
 package com.saha.amit.inventoryService.service;
 
 import com.netflix.discovery.EurekaClient;
+import com.saha.amit.inventoryService.DTO.ResponseDTO;
 import com.saha.amit.inventoryService.config.InventoryUtil;
 import com.saha.amit.inventoryService.model.Inventory;
 import com.saha.amit.inventoryService.repositiry.InventoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -21,11 +23,11 @@ public class InventoryService {
     InventoryRepository inventoryRepository;
 
     public void addInventory(AddInventoryDTO inventoryDTO) {
-        Boolean result = webClientBuilder.build().get()
-                .uri(InventoryUtil.PRODUCT_SERVICE_HOST+InventoryUtil.IS_PRODUCT_PRESNT + inventoryDTO.getProductId())
-                .retrieve().bodyToMono(Boolean.class)
+        ResponseDTO response = webClientBuilder.build().get()
+                .uri(InventoryUtil.PRODUCT_SERVICE_HOST+InventoryUtil.GET_PRODUCT_BY_ID + inventoryDTO.getProductId())
+                .retrieve().bodyToMono(ResponseDTO.class)
                 .block();
-        if (result) {
+        if (response.getStatusCode() == HttpStatus.OK.value()) {
             System.out.println("Inventory Service --> " + inventoryDTO.getProductId());
             Inventory inventory = Inventory
                     .builder()
@@ -35,6 +37,8 @@ public class InventoryService {
                     .inventoryCount(inventoryDTO.getInventoryCount())
                     .build();
             inventoryRepository.insert(inventory);
+        } else {
+            System.out.println("Product doesn't exist");
         }
     }
 }
